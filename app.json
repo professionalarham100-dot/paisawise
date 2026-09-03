@@ -1,0 +1,71 @@
+{
+  "expo": {
+    "name": "PaisaWise",
+    "slug": "paisawise",
+    "version": "1.0.0",
+    "description": "Smart AI budget planner for Pakistanis",
+    "orientation": "portrait",
+    "icon": "./assets/PW_Center_1_Neon.png",
+    "scheme": "paisawise",
+    "backgroundColor": "#111111",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/PW_Center_1_Neon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#060d08"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/PW_Center_1_Neon.png",
+        "backgroundColor": "#060d08"
+      },
+      "permissions": [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE",
+        "android.permission.POST_NOTIFICATIONS"
+      ],
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.arhamm.paisawise"
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/icon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/PW_Center_1_Neon.png",
+          "imageWidth": 300,
+          "resizeMode": "contain",
+          "backgroundColor": "#060d08"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 24,
+            "targetSdkVersion": 34
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "77669635-9d48-4180-87aa-67d9caad83c8"
+      }
+    }
+  }
+}

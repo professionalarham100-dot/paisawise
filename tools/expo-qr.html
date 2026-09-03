@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PaisaWise — Expo QR helper</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background: #0a0a0a;
+      color: #e5e7eb;
+      padding: 24px 16px 48px;
+    }
+    h1 { font-size: 1.25rem; margin: 0 0 8px; color: #00ff88; }
+    p { margin: 0 0 16px; font-size: 0.9rem; line-height: 1.5; color: #9ca3af; }
+    label { display: block; font-size: 0.75rem; font-weight: 700; color: #6b7280; margin-bottom: 6px; }
+    textarea {
+      width: 100%;
+      min-height: 72px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 255, 136, 0.25);
+      background: #111;
+      color: #fff;
+      font-size: 0.85rem;
+      resize: vertical;
+    }
+    textarea::placeholder { color: #555; }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      background: #00ff88;
+      color: #04170f;
+    }
+    button.secondary {
+      background: transparent;
+      color: #00ff88;
+      border: 1px solid rgba(0, 255, 136, 0.45);
+    }
+    #qrcode {
+      margin-top: 28px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 16px;
+      display: inline-block;
+      min-height: 220px;
+      min-width: 220px;
+    }
+    #qrcode:empty::after {
+      content: "Paste your Expo URL above, then tap Generate QR.";
+      color: #64748b;
+      font-size: 0.85rem;
+      display: block;
+      max-width: 260px;
+      padding: 40px 16px;
+      text-align: center;
+    }
+    .steps {
+      margin-top: 28px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 255, 136, 0.15);
+      background: #111;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: #cbd5e1;
+    }
+    .steps strong { color: #00ff88; }
+  </style>
+</head>
+<body>
+  <h1>Expo QR for iPhone</h1>
+  <p>
+    iPhone does not need a separate “scanner app” for Expo: use the <strong>Camera</strong> app and point it at the QR below.
+    Paste the connection string from your PC (terminal or <code style="color:#00ff88">http://localhost:8093</code>).
+  </p>
+
+  <label for="url">Expo URL (starts with <code>exp://</code>)</label>
+  <textarea id="url" placeholder="exp://u.expo.dev/... or exp://192.168.x.x:8093"></textarea>
+  <div class="row">
+    <button type="button" id="gen">Generate QR</button>
+    <button type="button" class="secondary" id="clear">Clear</button>
+  </div>
+
+  <div id="qrcode"></div>
+
+  <div class="steps">
+    <strong>How to get the URL</strong><br />
+    1. Run: <code>npx expo start --port 8093 --tunnel</code><br />
+    2. Open <code>http://localhost:8093</code> on this PC — copy the <code>exp://...</code> link.<br />
+    3. Paste here → Generate QR → on iPhone open <strong>Camera</strong> and scan this white square.<br />
+    4. Tap the banner → opens in <strong>Expo Go</strong>.
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script>
+    (function () {
+      var box = document.getElementById("qrcode");
+      var input = document.getElementById("url");
+      var qr = null;
+
+      function make() {
+        var text = (input.value || "").trim();
+        if (!text) {
+          alert("Paste your exp:// URL first.");
+          return;
+        }
+        box.innerHTML = "";
+        if (qr) {
+          try { qr.clear(); } catch (e) {}
+          qr = null;
+        }
+        qr = new QRCode(box, {
+          text: text,
+          width: 256,
+          height: 256,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M,
+        });
+      }
+
+      document.getElementById("gen").addEventListener("click", make);
+      document.getElementById("clear").addEventListener("click", function () {
+        input.value = "";
+        box.innerHTML = "";
+        qr = null;
+      });
+    })();
+  </script>
+</body>
+</html>
